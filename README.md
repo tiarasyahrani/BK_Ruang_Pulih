@@ -1,59 +1,180 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 📌 Rancangan Database BK Ruang Pulih
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Dokumen ini berisi rancangan struktur database yang digunakan dalam aplikasi **BK Ruang Pulih**.  
+Rancangan database dibuat untuk memastikan hubungan antar entitas konsisten, aman, dan mudah digunakan dalam proses pengembangan aplikasi.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🗂️ Diagram ERD (Entity Relationship Diagram)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Berikut merupakan visualisasi hubungan antar tabel:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+![ERD Rancangan Database](public/img/db_ruanggpulih.png)
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+## 🛢️ **Daftar Tabel dan Penjelasannya**
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 1. **users**
+Menyimpan informasi login untuk semua jenis pengguna.
+- `id_user` (int)
+- `email` (varchar)
+- `password` (varchar)
+- `role` (varchar) — admin / psikolog / pasien
+- `status_akun` (varchar)
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. **pasien**
+Menyimpan informasi pasien yang melakukan konsultasi.
+- `id_pasien` (int)
+- `nama`
+- `nik`
+- `usia`
+- `jenis_kelamin`
+- `alamat`
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 3. **psikolog**
+Detail psikolog yang tersedia.
+- `id_psikolog`
+- `nama`
+- `no_sipp`
+- `universitas`
+- `tahun_lulus`
+- `spesialisasi`
+- `pengalaman`
+- `dokumen_sipp`
+- `status_verifikasi`
+- `catatan_admin`
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. **verifikasi_psikolog**
+Menampung riwayat verifikasi oleh admin.
+- `id_verifikasi`
+- `id_psikolog`
+- `tanggal_verifikasi`
+- `diverifikasi_oleh`
+- `hasil`
+- `catatan`
 
-## Code of Conduct
+---
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 5. **jadwal**
+Berisi jadwal konsultasi psikolog.
+- `id_jadwal`
+- `id_psikolog`
+- `hari`
+- `jam_mulai`
+- `jam_selesai`
+- `keterangan`
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 6. **booking**
+Data pemesanan sesi konsultasi oleh pasien.
+- `id_booking`
+- `id_jadwal`
+- `id_pasien`
+- `id_kasus`
+- `mode_konseling`
+- `mode_identitas`
+- `label_anonim`
+- `status`
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 7. **kasus**
+Jenis kasus yang dialami pasien.
+- `id_kasus`
+- `kode`
+- `nama_kasus`
+- `tingkat_sensitivitas`
+
+---
+
+### 8. **chat_room**
+Ruang chat untuk tiap booking.
+- `id_room`
+- `id_booking`
+- `dibuat_pada`
+
+---
+
+### 9. **chat**
+Riwayat pesan yang dikirim oleh pasien/psikolog.
+- `id_chat`
+- `id_room`
+- `pengirim`
+- `isi_pesan`
+- `waktu`
+
+---
+
+### 10. **laporan**
+Laporan akhir dari psikolog setelah sesi.
+- `id_laporan`
+- `id_booking`
+- `id_psikolog`
+- `tanggal`
+- `catatan`
+
+---
+
+## 🔗 **Relasi Database (Ringkasan)**
+
+- 1 Psikolog ➝ banyak Jadwal  
+- 1 Jadwal ➝ banyak Booking  
+- 1 Pasien ➝ banyak Booking  
+- 1 Booking ➝ 1 Chat Room  
+- 1 Chat Room ➝ banyak Chat  
+- 1 Booking ➝ banyak Laporan  
+- 1 Psikolog ➝ banyak Laporan  
+- 1 Psikolog ➝ banyak Verifikasi Riwayat  
+
+---
+
+---
+
+# 🔄 Alur Fitur Website
+
+Berikut gambaran alur fitur utama dalam aplikasi.
+
+## **🔹 1. Registrasi & Login**
+- User mendaftar sebagai pasien atau psikolog.
+- Psikolog wajib upload dokumen SIPP untuk diverifikasi.
+- Admin memverifikasi psikolog sebelum aktif.
+
+## **🔹 2. Psikolog Mengatur Jadwal**
+- Psikolog menambahkan jadwal konsultasi.
+- Jadwal tampil di halaman pasien.
+
+## **🔹 3. Pasien Melakukan Booking**
+- Pasien memilih jadwal, kasus, serta mode konseling.
+- Booking masuk ke status "Menunggu".
+
+## **🔹 4. Admin/psikolog memproses booking**
+- Booking berubah status: *disetujui / ditolak / selesai*.
+
+## **🔹 5. Sistem Membuat Chat Room**
+- Saat booking diterima, otomatis dibuat:
+  - 1 chat_room untuk pasien ↔ psikolog
+  - Pasien & psikolog bisa mulai chat
+
+## **🔹 6. Sesi Konseling (Chat)**
+- Chat realtime berbasis text
+- Pesan disimpan di tabel `chat`
+
+## **🔹 7. Psikolog Membuat Laporan**
+- Setelah sesi selesai, psikolog mengisi laporan
+- Laporan tersimpan di tabel `laporan`
+- Pasien dapat melihat laporan akhir
+
+## **🔹 8. Riwayat Konsultasi**
+- Pasien dapat melihat riwayat booking, chat, laporan
+- Psikolog bisa melihat riwayat pasien dan hasil konsultasi
+
+---
+
