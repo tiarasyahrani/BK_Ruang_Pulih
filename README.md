@@ -1,6 +1,6 @@
 # 📌 Rancangan Database BK Ruang Pulih
 
-Dokumen ini berisi rancangan struktur database yang digunakan dalam aplikasi **BK Ruang Pulih**.  
+Dokumen ini berisi rancangan struktur database yang digunakan dalam Website **BK Ruang Pulih**.  
 Rancangan database dibuat untuk memastikan hubungan antar entitas konsisten, aman, dan mudah digunakan dalam proses pengembangan aplikasi.
 
 ---
